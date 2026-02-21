@@ -33,8 +33,10 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
     { path: "/", label: "Dashboard", icon: Home },
     { path: "/wallets", label: "Wallets", icon: Wallet },
     { path: "/agents", label: "Agents", icon: Activity },
+    { path: "/swap", label: "Swap", icon: ArrowDownUp },
     { path: "/transactions", label: "Transactions", icon: Terminal },
     { path: "/security", label: "Security", icon: Shield },
+    { path: "/auth", label: "Auth", icon: Key },
   ];
   
   return (
