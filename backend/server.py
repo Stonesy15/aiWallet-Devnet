@@ -71,6 +71,66 @@ class PolicyUpdateRequest(BaseModel):
     max_daily_spend: Optional[float] = None
     allowed_actions: Optional[List[str]] = None
 
+class UserRegisterRequest(BaseModel):
+    username: str
+    email: str
+    password: str
+
+class UserLoginRequest(BaseModel):
+    username: str
+    password: str
+
+class APIKeyCreateRequest(BaseModel):
+    name: str
+    permissions: Optional[List[str]] = None
+
+class SwapQuoteRequest(BaseModel):
+    input_mint: str
+    output_mint: str
+    amount: float
+    token_decimals: int = 9
+
+class SwapExecuteRequest(BaseModel):
+    wallet_id: str
+    input_mint: str
+    output_mint: str
+    amount: float
+    slippage_bps: int = 50
+
+async def get_current_user(
+    credentials: Optional[HTTPAuthorizationCredentials] = Depends(security),
+    x_api_key: Optional[str] = Header(None)
+) -> Dict[str, Any]:
+    \"\"\"Authentication dependency - verifies JWT token or API key\"\"\"
+    
+    if x_api_key:
+        try:
+            key_data = await auth_service.verify_api_key(x_api_key)
+            return {\"user_id\": key_data[\"user_id\"], \"auth_type\": \"api_key\"}
+        except ValueError as e:
+            raise HTTPException(status_code=401, detail=str(e))
+    
+    if credentials:
+        try:
+            token_data = await auth_service.verify_token(credentials.credentials)
+            return {\"user_id\": token_data[\"user_id\"], \"auth_type\": \"jwt\"}
+        except ValueError as e:
+            raise HTTPException(status_code=401, detail=str(e))
+    
+    raise HTTPException(status_code=401, detail=\"Authentication required\")
+
+async def optional_auth(
+    credentials: Optional[HTTPAuthorizationCredentials] = Depends(security),
+    x_api_key: Optional[str] = Header(None)
+) -> Optional[Dict[str, Any]]:
+    \"\"\"Optional authentication - allows public access\"\"\"
+    if x_api_key or credentials:
+        try:
+            return await get_current_user(credentials, x_api_key)
+        except:
+            return None
+    return None
+
 @api_router.get("/")
 async def root():
     return {"message": "Agentic Wallet API"}
