@@ -1,4 +1,5 @@
-from fastapi import FastAPI, APIRouter, HTTPException
+from fastapi import FastAPI, APIRouter, HTTPException, Depends, Header
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from dotenv import load_dotenv
 from starlette.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient
@@ -14,6 +15,8 @@ from services.wallet_service import WalletService
 from services.agent_service import AgentService
 from services.solana_service import SolanaService
 from services.audit_service import AuditService
+from services.auth_service import AuthService
+from services.swap_service import SwapService
 
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
@@ -24,11 +27,14 @@ db = client[os.environ['DB_NAME']]
 
 app = FastAPI()
 api_router = APIRouter(prefix="/api")
+security = HTTPBearer(auto_error=False)
 
 wallet_service = WalletService(db)
 agent_service = AgentService(db, wallet_service)
 solana_service = SolanaService()
 audit_service = AuditService(db)
+auth_service = AuthService(db)
+swap_service = SwapService()
 
 class WalletCreateRequest(BaseModel):
     name: str
