@@ -152,8 +152,10 @@ function AppLayout() {
               <Route path="/" element={<Dashboard />} />
               <Route path="/wallets" element={<Wallets />} />
               <Route path="/agents" element={<Agents />} />
+              <Route path="/swap" element={<Swap />} />
               <Route path="/transactions" element={<Transactions />} />
               <Route path="/security" element={<Security />} />
+              <Route path="/auth" element={<Auth />} />
             </Routes>
           </motion.div>
         </main>
