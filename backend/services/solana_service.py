@@ -114,9 +114,14 @@ class SolanaService:
                 recent_blockhash.value.blockhash
             )
             
-            txn = Transaction([from_keypair], message, recent_blockhash.value.blockhash)
+            txn = Transaction.new_signed_with_payer(
+                [transfer_ix],
+                from_keypair.pubkey(),
+                [from_keypair],
+                recent_blockhash.value.blockhash
+            )
             
-            response = await self.client.send_transaction(txn, from_keypair)
+            response = await self.client.send_transaction(txn)
             
             if response.value:
                 signature = str(response.value)
