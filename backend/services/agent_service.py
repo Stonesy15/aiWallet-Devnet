@@ -121,6 +121,24 @@ class AgentService:
                 "auto_execute": amount <= policy["auto_approve_below"]
             }
         
+        elif action_type == "swap":
+            amount = params.get("amount", 0)
+            
+            if amount > policy["max_transaction_amount"]:
+                return {
+                    "approved": False,
+                    "reason": f"Swap amount {amount} exceeds policy limit",
+                    "decision_type": "rule-based"
+                }
+            
+            return {
+                "approved": True,
+                "action": "swap",
+                "params": params,
+                "decision_type": "rule-based",
+                "auto_execute": amount <= policy["auto_approve_below"]
+            }
+        
         return {"approved": True, "decision_type": "rule-based"}
     
     async def _execute_llm_driven(
