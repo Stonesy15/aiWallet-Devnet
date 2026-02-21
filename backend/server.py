@@ -101,29 +101,29 @@ async def get_current_user(
     credentials: Optional[HTTPAuthorizationCredentials] = Depends(security),
     x_api_key: Optional[str] = Header(None)
 ) -> Dict[str, Any]:
-    \"\"\"Authentication dependency - verifies JWT token or API key\"\"\"
+    """Authentication dependency - verifies JWT token or API key"""
     
     if x_api_key:
         try:
             key_data = await auth_service.verify_api_key(x_api_key)
-            return {\"user_id\": key_data[\"user_id\"], \"auth_type\": \"api_key\"}
+            return {"user_id": key_data["user_id"], "auth_type": "api_key"}
         except ValueError as e:
             raise HTTPException(status_code=401, detail=str(e))
     
     if credentials:
         try:
             token_data = await auth_service.verify_token(credentials.credentials)
-            return {\"user_id\": token_data[\"user_id\"], \"auth_type\": \"jwt\"}
+            return {"user_id": token_data["user_id"], "auth_type": "jwt"}
         except ValueError as e:
             raise HTTPException(status_code=401, detail=str(e))
     
-    raise HTTPException(status_code=401, detail=\"Authentication required\")
+    raise HTTPException(status_code=401, detail="Authentication required")
 
 async def optional_auth(
     credentials: Optional[HTTPAuthorizationCredentials] = Depends(security),
     x_api_key: Optional[str] = Header(None)
 ) -> Optional[Dict[str, Any]]:
-    \"\"\"Optional authentication - allows public access\"\"\"
+    """Optional authentication - allows public access"""
     if x_api_key or credentials:
         try:
             return await get_current_user(credentials, x_api_key)
