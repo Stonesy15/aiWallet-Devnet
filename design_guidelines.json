@@ -1,0 +1,144 @@
+{
+  "identity": {
+    "persona": "E1",
+    "tone": "Professional, Secure, Technical, 'Terminal-Chic'",
+    "aesthetic": "Dark Mode, High Contrast, Neon Accents, Grid-based",
+    "principles": [
+      "Fusion over Imitation: Mix Terminal aesthetics with Modern SaaS.",
+      "Emotion First: Evoke trust and technical mastery.",
+      "Content is King: Data density and clarity are paramount.",
+      "Zoom In: Focus on transaction details and key management.",
+      "Negative Space: Use spacing to group logic units.",
+      "Contrast: High contrast for readability in dark mode."
+    ]
+  },
+  "typography": {
+    "font_family": {
+      "headings": "JetBrains Mono, monospace",
+      "body": "Manrope, sans-serif",
+      "mono": "JetBrains Mono, monospace"
+    },
+    "scale": {
+      "h1": "text-4xl md:text-5xl font-bold tracking-tight",
+      "h2": "text-3xl font-semibold tracking-tight",
+      "h3": "text-2xl font-medium",
+      "h4": "text-xl font-medium",
+      "body": "text-base leading-relaxed",
+      "small": "text-sm text-muted-foreground",
+      "tiny": "text-xs uppercase tracking-wider"
+    },
+    "instructions": "Import 'JetBrains Mono' and 'Manrope' from Google Fonts. Use JetBrains Mono for all Headings (h1-h4), Data Values, and Code snippets. Use Manrope for Body text, UI labels, and Descriptions."
+  },
+  "colors": {
+    "theme": "dark",
+    "palette": {
+      "background": "#09090b",
+      "surface": "#18181b",
+      "surface_highlight": "#27272a",
+      "primary": "#14F195",
+      "primary_foreground": "#000000",
+      "secondary": "#9945FF",
+      "secondary_foreground": "#FFFFFF",
+      "accent": "#3B82F6",
+      "destructive": "#EF4444",
+      "border": "#27272a",
+      "ring": "#14F195",
+      "text_primary": "#FAFAFA",
+      "text_secondary": "#A1A1AA",
+      "text_muted": "#71717A"
+    },
+    "gradients": {
+      "solana_glow": "linear-gradient(135deg, #14F195 0%, #9945FF 100%)",
+      "subtle_glow": "radial-gradient(circle at center, rgba(20, 241, 149, 0.15) 0%, transparent 70%)"
+    },
+    "usage": {
+      "background": "bg-[#09090b]",
+      "card": "bg-[#18181b] border border-[#27272a]",
+      "primary_button": "bg-[#14F195] text-black hover:bg-[#10c479]",
+      "secondary_button": "bg-[#27272a] text-white hover:bg-[#3f3f46]",
+      "accent_text": "text-[#14F195]"
+    }
+  },
+  "layout": {
+    "grid_system": "Bento Grid Mode B (High Density)",
+    "container": "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8",
+    "spacing": {
+      "section_gap": "gap-8",
+      "card_padding": "p-6",
+      "element_gap": "gap-4"
+    },
+    "structure": {
+      "sidebar": "Fixed width (240px) on desktop, collapsible. Dark surface (#121212) with border-r.",
+      "header": "Sticky top, glassmorphism (bg-background/80 backdrop-blur-md), border-b.",
+      "main": "Scrollable content area, pt-6 pb-12"
+    }
+  },
+  "components": {
+    "cards": {
+      "style": "Flat, sharp or rounded-md (border-radius: 6px). 1px border (#27272a). No heavy shadows, use 'glow' on hover.",
+      "hover": "hover:border-[#14F195]/50 transition-colors duration-300"
+    },
+    "buttons": {
+      "primary": "rounded-md font-mono text-sm uppercase tracking-wide px-6 py-2.5 shadow-[0_0_10px_rgba(20,241,149,0.2)]",
+      "outline": "border border-[#27272a] bg-transparent hover:bg-[#27272a] text-white rounded-md"
+    },
+    "inputs": {
+      "style": "bg-[#09090b] border border-[#27272a] rounded-md focus:ring-1 focus:ring-[#14F195] text-white placeholder:text-zinc-600 font-mono"
+    },
+    "tables": {
+      "style": "Compact, dense. Header uppercase text-xs text-zinc-500. Row hover: bg-[#27272a]/50. Font-mono for addresses/hashes."
+    },
+    "charts": {
+      "library": "Recharts (via Shadcn)",
+      "theme": {
+        "grid": "#27272a",
+        "tooltip_bg": "#18181b",
+        "colors": ["#14F195", "#9945FF", "#3B82F6", "#F59E0B"]
+      }
+    },
+    "terminal": {
+      "style": "bg-[#050505] border border-[#27272a] rounded-md p-4 font-mono text-xs overflow-y-auto max-h-[300px]",
+      "text": "text-green-400"
+    }
+  },
+  "visual_enhancers": {
+    "glassmorphism": "backdrop-blur-xl bg-black/40 border border-white/10",
+    "borders": "1px solid #27272a",
+    "shadows": "shadow-none or shadow-lg shadow-black/50",
+    "icons": "Lucide React (default). Use specific tech/crypto icons from 'lucide-react' (e.g., Wallet, Activity, Shield, Code, Terminal)."
+  },
+  "assets": {
+    "images": {
+      "hero_bg": "https://images.pexels.com/photos/17486100/pexels-photo-17486100.png?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "solana_logo_fallback": "https://cryptologos.cc/logos/solana-sol-logo.png",
+      "user_avatar": "https://images.unsplash.com/photo-1615843423179-bea071facf96?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1ODh8MHwxfHNlYXJjaHwxfHxmdXR1cmlzdGljJTIwcm9ib3QlMjBhdmF0YXIlMjBoZWFkc2hvdHxlbnwwfHx8fDE3NzE3MDg2ODV8MA&ixlib=rb-4.1.0&q=85",
+      "bot_avatar": "https://images.unsplash.com/photo-1588866054175-c8347662ec72?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1ODh8MHwxfHNlYXJjaHw0fHxmdXR1cmlzdGljJTIwcm9ib3QlMjBhdmF0YXIlMjBoZWFkc2hvdHxlbnwwfHx8fDE3NzE3MDg2ODV8MA&ixlib=rb-4.1.0&q=85"
+    }
+  },
+  "motion": {
+    "library": "Framer Motion",
+    "transitions": {
+      "default": "transition-all duration-200 ease-out",
+      "page_load": "initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}"
+    },
+    "hover_effects": "Scale 1.01 or Border Color Shift"
+  },
+  "accessibility": {
+    "contrast": "Ensure text is #FAFAFA (Zinc 50) on dark backgrounds. Use #A1A1AA (Zinc 400) for secondary text. Avoid dark grey on black.",
+    "interactive": "Focus rings must be visible (#14F195).",
+    "motion": "Respect prefers-reduced-motion."
+  },
+  "universal_guidelines": {
+    "instructions": [
+      "Don't make generic centered layouts.",
+      "Use 'JetBrains Mono' for anything related to code, hash, address, or amounts.",
+      "Use 'Manrope' for UI labels and long descriptions.",
+      "Always use dark mode classes.",
+      "Use 'sonner' for toast notifications.",
+      "Avoid 'Inter' for Headings.",
+      "Use 'lucide-react' for icons.",
+      "Use 'recharts' for data visualization.",
+      "Ensure all interactive elements have data-testid."
+    ]
+  }
+}
