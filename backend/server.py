@@ -257,6 +257,120 @@ async def get_policy(wallet_id: str):
         raise HTTPException(status_code=404, detail="Policy not found")
     return policy
 
+@api_router.post("/auth/register")
+async def register(request: UserRegisterRequest):
+    try:
+        result = await auth_service.register_user(
+            request.username,
+            request.email,
+            request.password
+        )
+        return result
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+@api_router.post("/auth/login")
+async def login(request: UserLoginRequest):
+    try:
+        result = await auth_service.login(
+            request.username,
+            request.password
+        )
+        return result
+    except ValueError as e:
+        raise HTTPException(status_code=401, detail=str(e))
+
+@api_router.get("/auth/me")
+async def get_current_user_info(current_user: Dict = Depends(get_current_user)):
+    return current_user
+
+@api_router.post("/auth/api-keys")
+async def create_api_key(
+    request: APIKeyCreateRequest,
+    current_user: Dict = Depends(get_current_user)
+):
+    try:
+        result = await auth_service.create_api_key(
+            current_user["user_id"],
+            request.name,
+            request.permissions
+        )
+        return result
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.get("/auth/api-keys")
+async def list_api_keys(current_user: Dict = Depends(get_current_user)):
+    keys = await auth_service.list_api_keys(current_user["user_id"])
+    return keys
+
+@api_router.delete("/auth/api-keys/{key_id}")
+async def revoke_api_key(
+    key_id: str,
+    current_user: Dict = Depends(get_current_user)
+):
+    success = await auth_service.revoke_api_key(key_id, current_user["user_id"])
+    if not success:
+        raise HTTPException(status_code=404, detail="API key not found")
+    return {"message": "API key revoked"}
+
+@api_router.get("/swap/tokens")
+async def get_common_tokens():
+    return swap_service.get_common_tokens()
+
+@api_router.post("/swap/quote")
+async def get_swap_quote(request: SwapQuoteRequest):
+    try:
+        result = await swap_service.simulate_swap(
+            request.input_mint,
+            request.output_mint,
+            request.amount,
+            request.token_decimals
+        )
+        return result
+    except Exception as e:
+        logging.error(f"Quote error: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.post("/swap/execute")
+async def execute_swap(request: SwapExecuteRequest):
+    try:
+        wallet = await wallet_service.get_wallet(request.wallet_id)
+        if not wallet:
+            raise HTTPException(status_code=404, detail="Wallet not found")
+        
+        quote_result = await swap_service.simulate_swap(
+            request.input_mint,
+            request.output_mint,
+            request.amount
+        )
+        
+        if not quote_result.get("valid"):
+            return {"success": False, "error": "Invalid swap quote"}
+        
+        keypair = await wallet_service.get_keypair(request.wallet_id)
+        
+        result = await swap_service.execute_swap(
+            keypair,
+            quote_result["quote"]
+        )
+        
+        await audit_service.log_action(
+            request.wallet_id,
+            "swap",
+            {
+                "input_mint": request.input_mint,
+                "output_mint": request.output_mint,
+                "amount": request.amount
+            },
+            result
+        )
+        
+        return result
+    except Exception as e:
+        logging.error(f"Swap execution error: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
 app.include_router(api_router)
 
 app.add_middleware(
