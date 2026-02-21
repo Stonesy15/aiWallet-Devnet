@@ -10,7 +10,8 @@ import {
   Menu,
   X,
   Home,
-  Settings
+  Key,
+  ArrowDownUp
 } from "lucide-react";
 
 import Dashboard from "./pages/Dashboard";
@@ -18,6 +19,8 @@ import Wallets from "./pages/Wallets";
 import Agents from "./pages/Agents";
 import Transactions from "./pages/Transactions";
 import Security from "./pages/Security";
+import Auth from "./pages/Auth";
+import Swap from "./pages/Swap";
 import { Toaster } from "./components/ui/sonner";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
