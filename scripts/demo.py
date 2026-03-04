@@ -123,6 +123,28 @@ async def main():
             )
         else:
             print(f"  ✗ Transfer failed: {transfer_result.get('error')}")
+            
+    print("\n[7.5] Simulating Agent Swap Interaction...")
+    swap_decision = await agent_service.execute_action(
+        agent1['agent_id'],
+        "swap",
+        {"input_mint": "SOL", "output_mint": "USDC", "amount": 0.01}
+    )
+    print(f"  Rule-based swap decision: {swap_decision['approved']}")
+    
+    if swap_decision['approved']:
+        print("  Executing swap protocol interaction (Memo)...")
+        swap_result = await solana_service.interact_with_protocol(
+            keypair1,
+            "memo",
+            {"memo": "Simulated Swap: 0.01 SOL to USDC"}
+        )
+        if swap_result['success']:
+            print(f"  ✓ Swap Protocol Interaction successful!")
+            print(f"  Signature: {swap_result['signature']}")
+            print(f"  Explorer: {swap_result['explorer_url']}")
+        else:
+            print(f"  ✗ Swap failed: {swap_result.get('error')}")
     
     print("\n[8] Final balances...")
     final_balance1 = await solana_service.get_balance(wallet1['pubkey'])

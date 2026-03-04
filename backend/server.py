@@ -350,9 +350,12 @@ async def execute_swap(request: SwapExecuteRequest):
         
         keypair = await wallet_service.get_keypair(request.wallet_id)
         
-        result = await swap_service.execute_swap(
+        result = await solana_service.interact_with_protocol(
             keypair,
-            quote_result["quote"]
+            "memo",
+            {
+                "memo": f"Simulated Swap: {request.amount} {request.input_mint} to {request.output_mint}"
+            }
         )
         
         await audit_service.log_action(
